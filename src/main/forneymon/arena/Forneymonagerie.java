@@ -199,11 +199,11 @@ public class Forneymonagerie implements ForneymonagerieInterface {
     public Forneymonagerie clone () {
     	Forneymonagerie newForneymonagerie = new Forneymonagerie();
         newForneymonagerie.size = this.size();
+        newForneymonagerie.checkAndGrow();
 
         for (int i = 0; i < newForneymonagerie.size; i++) {
         	newForneymonagerie.collection[i] = this.get(i).clone();
-        }
-        
+        }     
         return newForneymonagerie;
     }
     
@@ -305,29 +305,6 @@ public class Forneymonagerie implements ForneymonagerieInterface {
 			}
 			this.collection = newCollection;
 		}
-	}
-	
-	public static void main (String[] args) {
-		Forneymonagerie fm1 = new Forneymonagerie();
-		Forneymonagerie fm2 = new Forneymonagerie();
-
-		Dampymon dampy = new Dampymon(1);
-		Burnymon firy = new Burnymon(1);
-		fm1.collect(dampy);
-		fm1.collect(firy);
-		Dampymon dampy2 = new Dampymon(1);
-		Burnymon firy2 = new Burnymon(1);
-		fm2.collect(dampy2);
-		fm2.collect(firy2);
-		System.out.println(fm1.equals(fm2));
-		fm1.rearrange("Burnymon", 0);
-		System.out.println(fm1);
-
-		System.out.println(fm1.containsType("Dampymon"));
-		System.out.println(fm1.get(1));
-
-		System.out.println(fm1);
-		System.out.println(fm1.size());
 	}
 }
 

@@ -383,14 +383,15 @@ public class ForneymonBattlegroundTests {
         fm1.collect(new Burnymon(1));
         fm1.collect(new Leafymon(1));
         fm1.collect(new Doggymon(2));
-        fm1.collect(new Earthymon(5));
+        fm1.collect(new Thundermon(5));
+        System.out.println(fm1.toString());
         Forneymonagerie dolly = fm1.clone();
         assertEquals(5, dolly.size());
         fm1.get(4).takeDamage(5, DamageType.BASIC);
-        assertEquals(Earthymon.START_HEALTH - 5, fm1.get(4).getHealth());
-        assertEquals(Earthymon.START_HEALTH, dolly.get(4).getHealth());
-        fm1.rearrange("Earthymon", 0);
-        assertEquals(0, fm1.getTypeIndex("Earthymon"));
+        assertEquals(Thundermon.START_HEALTH - 5, fm1.get(4).getHealth());
+        assertEquals(Thundermon.START_HEALTH, dolly.get(4).getHealth());
+        fm1.rearrange("Thundermon", 0);
+        assertEquals(0, fm1.getTypeIndex("Thundermon"));
         assertEquals(0, dolly.getTypeIndex("Dampymon"));
     }
     
