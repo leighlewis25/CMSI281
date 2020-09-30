@@ -10,5 +10,8 @@ public enum DamageType {
     BURNY,
     DAMPY,
     ZAPPY,
-    LEAFY
+    LEAFY,
+    THUNDER,
+    EARTHY,
+    DOGGY
 }

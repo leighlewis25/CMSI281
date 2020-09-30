@@ -22,9 +22,56 @@ public class ForneymonArena {
      * @param fm1 One of the fighting Forneymonagerie
      * @param fm2 One of the fighting Forneymonagerie
      */
-    public static void fight (Forneymonagerie fm1, Forneymonagerie fm2) {
-        // TODO!
-        throw new UnsupportedOperationException();
+    public static void fight (Forneymonagerie fm1, Forneymonagerie fm2) {        
+        int indexFM1 = 0;
+        int indexFM2 = 0;
+
+       
+        System.out.println("Combat Starting!");
+        
+        while (fm1.size() > 0 && fm2.size() > 0) {
+            System.out.println("New Round: " + fm1.get(indexFM1) + " vs " + fm2.get(indexFM2));
+
+            fm1.get(indexFM1).takeDamage(BASE_DAMAGE + fm2.get(indexFM2).getLevel(), fm2.get(indexFM2).getDamageType());
+            fm2.get(indexFM2).takeDamage(BASE_DAMAGE + fm1.get(indexFM1).getLevel(), fm1.get(indexFM1).getDamageType());
+            
+            System.out.println("Combat Results: " + fm1.get(indexFM1) + " vs " + fm2.get(indexFM2));
+
+            if (fm1.get(indexFM1).getHealth() <= 0) {
+                fm1.remove(indexFM1);
+                indexFM1--;
+            }
+            
+            if (fm2.get(indexFM2).getHealth() <= 0) {
+                fm2.remove(indexFM2);
+                indexFM2--;
+            }
+            indexFM1++;
+            indexFM2++;
+            
+            if (indexFM1 == fm1.size()) {
+                indexFM1 = 0;
+            }
+            
+            if (indexFM2 == fm2.size()) {
+                indexFM2 = 0;
+            }
+
+            
+        }
+        
+        if (fm1.size() == 0 && fm2.size() > 0) {
+            System.out.println("Combat Finished! Victor: Forneymonagerie " + 2);
+
+        }
+        
+        if (fm1.size() > 0 && fm2.size() == 0) {
+            System.out.println("Combat Finished! Victor: Forneymonagerie " + 1);
+        }
+        
+        if (fm1.size() == 0 && fm2.size() == 0) {
+            System.out.println("Combat Finished! It was a tie."); 
+        }
     }
     
 }

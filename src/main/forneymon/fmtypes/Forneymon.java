@@ -77,6 +77,7 @@ abstract public class Forneymon implements MinForneymon {
      */
     public abstract Forneymon clone();
     
+
     /**
      * Returns a convenient String representation of the Forneymon
      * of the format:
