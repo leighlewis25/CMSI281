@@ -312,8 +312,8 @@ public class Forneymonagerie implements ForneymonagerieInterface {
 	 * @param index Starting index to shift left from
 	 */
     private void shiftLeft (int startIndex, int endIndex) {
-		for (int i = startIndex; i < endIndex; i++) {
-			collection[i] = collection[i+1];
+        for (int i = startIndex; i < endIndex; i++) {
+            collection[i] = collection[i+1];
 		}
 	}
     
@@ -326,7 +326,7 @@ public class Forneymonagerie implements ForneymonagerieInterface {
 	    if (this.size < this.collection.length) {
 			return;
 		} else {
-			Forneymon[] newCollection = new Forneymon[this.collection.length * 2];
+		    Forneymon[] newCollection = new Forneymon[this.collection.length * 2];
 			
 			for (int i = 0; i < this.collection.length; i++) {
 				newCollection[i] = this.collection[i];
