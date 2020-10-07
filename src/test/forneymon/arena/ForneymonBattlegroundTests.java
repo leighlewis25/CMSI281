@@ -182,7 +182,33 @@ public class ForneymonBattlegroundTests {
         assertEquals(d1, fm1.get(0));
         assertEquals(b1, fm1.get(1));
     }
-
+    
+    @Test
+    public void testGet_t1() {
+        Dampymon d1 = new Dampymon(1);
+        Burnymon b1 = new Burnymon(1);
+        Doggymon d2 = new Doggymon(1);
+        Earthymon e1 = new Earthymon(2);
+        Thundermon t1 = new Thundermon(2);
+        fm1.collect(d1);
+        fm1.collect(b1);
+        fm1.collect(d2);
+        fm1.collect(e1);
+        fm1.collect(t1);
+        assertEquals(d1, fm1.get(0));
+        assertEquals(b1, fm1.get(1));
+        assertEquals(d2, fm1.get(2));
+        assertEquals(e1, fm1.get(3));
+        assertEquals(t1, fm1.get(4));
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void testGetExceptions() {
+        fm1.collect(new Thundermon(1));
+        fm1.collect(new Zappymon(1));
+        fm1.get(-1);
+        fm1.get(3);
+    }
     
     @Test
     public void testRemove_t0() {
@@ -194,8 +220,16 @@ public class ForneymonBattlegroundTests {
         fm1.remove(0);
         assertEquals(1, fm1.size());
         assertEquals(b1, fm1.get(0));
-    }
+    }   
     
+    @Test(expected = IllegalArgumentException.class)
+    public void testRemoveExceptions() {
+        fm1.collect(new Thundermon(1));
+        fm1.collect(new Zappymon(1));
+        fm1.remove(5);
+        fm1.remove(-2);
+        fm1.remove(3);
+    }    
     
     @Test
     public void testGetTypeIndexContainsType_t0() {
@@ -206,8 +240,32 @@ public class ForneymonBattlegroundTests {
         assertEquals(-1, fm1.getTypeIndex("Leafymon"));
         assertTrue(fm1.containsType("Dampymon"));
         assertFalse(fm1.containsType("Zappymon"));
+        assertFalse(fm1.containsType("Leafymon"));
     }
     
+    @Test
+    public void testGetTypeIndexContainsType_t2() {
+        fm1.collect(new Dampymon(1));
+        fm1.collect(new Burnymon(1));
+        fm1.collect(new Leafymon(1));
+        fm1.collect(new Doggymon(1));
+        fm1.collect(new Earthymon(1));
+        fm1.collect(new Thundermon(1));
+        assertEquals(0, fm1.getTypeIndex("Dampymon"));
+        assertEquals(1, fm1.getTypeIndex("Burnymon"));
+        assertEquals(2, fm1.getTypeIndex("Leafymon"));
+        assertEquals(3, fm1.getTypeIndex("Doggymon"));
+        assertEquals(4, fm1.getTypeIndex("Earthymon"));
+        assertEquals(5, fm1.getTypeIndex("Thundermon"));
+        assertTrue(fm1.containsType("Dampymon"));
+        assertTrue(fm1.containsType("Burnymon"));
+        assertTrue(fm1.containsType("Leafymon"));
+        assertTrue(fm1.containsType("Doggymon"));
+        assertTrue(fm1.containsType("Earthymon"));
+        assertTrue(fm1.containsType("Thundermon"));
+        assertFalse(fm1.containsType("Zappymon"));
+        
+    }    
     
     @Test
     public void testRearrange_t0() {
@@ -236,10 +294,10 @@ public class ForneymonBattlegroundTests {
         assertEquals(0, fm1.getTypeIndex("Leafymon"));
         assertEquals(1, fm1.getTypeIndex("Thundermon"));
         assertEquals(2, fm1.getTypeIndex("Zappymon"));
-        fm1.rearrange("Thundermon", 0);
+        fm1.rearrange("Leafymon", 2);
         assertEquals(0, fm1.getTypeIndex("Thundermon"));
-        assertEquals(1, fm1.getTypeIndex("Leafymon"));
-        assertEquals(2, fm1.getTypeIndex("Zappymon"));
+        assertEquals(2, fm1.getTypeIndex("Leafymon"));
+        assertEquals(1, fm1.getTypeIndex("Zappymon"));
     }
     
     @Test
@@ -249,21 +307,25 @@ public class ForneymonBattlegroundTests {
         fm1.collect(new Leafymon(1));
         fm1.collect(new Dampymon(1));
         fm1.rearrange("Leafymon", 0);
+        // Middle to First
         assertEquals(0, fm1.getTypeIndex("Leafymon"));
         assertEquals(1, fm1.getTypeIndex("Thundermon"));
         assertEquals(2, fm1.getTypeIndex("Zappymon"));
         assertEquals(3, fm1.getTypeIndex("Dampymon"));
         fm1.rearrange("Thundermon", 0);
+        // Middle to first
         assertEquals(0, fm1.getTypeIndex("Thundermon"));
         assertEquals(1, fm1.getTypeIndex("Leafymon"));
         assertEquals(2, fm1.getTypeIndex("Zappymon"));
         assertEquals(3, fm1.getTypeIndex("Dampymon"));
         fm1.rearrange("Zappymon", 0);
+        // Middle to first
         assertEquals(0, fm1.getTypeIndex("Zappymon"));
         assertEquals(1, fm1.getTypeIndex("Thundermon"));
         assertEquals(2, fm1.getTypeIndex("Leafymon"));
         assertEquals(3, fm1.getTypeIndex("Dampymon"));
         fm1.rearrange("Dampymon", 0);
+        // Last to First
         assertEquals(0, fm1.getTypeIndex("Dampymon"));
         assertEquals(1, fm1.getTypeIndex("Zappymon"));
         assertEquals(2, fm1.getTypeIndex("Thundermon"));
@@ -276,14 +338,17 @@ public class ForneymonBattlegroundTests {
         fm1.collect(new Zappymon(1));
         fm1.collect(new Leafymon(1));
         fm1.rearrange("Zappymon", 2);
+        // Middle to last
         assertEquals(0, fm1.getTypeIndex("Thundermon"));
         assertEquals(1, fm1.getTypeIndex("Leafymon"));
         assertEquals(2, fm1.getTypeIndex("Zappymon"));
         fm1.rearrange("Leafymon", 2);
+        // Middle to last
         assertEquals(0, fm1.getTypeIndex("Thundermon"));
         assertEquals(2, fm1.getTypeIndex("Leafymon"));
         assertEquals(1, fm1.getTypeIndex("Zappymon"));
         fm1.rearrange("Thundermon", 2);
+        // First to Last
         assertEquals(0, fm1.getTypeIndex("Zappymon"));
         assertEquals(2, fm1.getTypeIndex("Thundermon"));
         assertEquals(1, fm1.getTypeIndex("Leafymon"));
@@ -295,14 +360,17 @@ public class ForneymonBattlegroundTests {
         fm1.collect(new Zappymon(1));
         fm1.collect(new Leafymon(1));
         fm1.rearrange("Leafymon", 1);
+        // Last to middle
         assertEquals(1, fm1.getTypeIndex("Leafymon"));
         assertEquals(0, fm1.getTypeIndex("Thundermon"));
         assertEquals(2, fm1.getTypeIndex("Zappymon"));
         fm1.rearrange("Zappymon", 0);
+        // Last to first
         assertEquals(1, fm1.getTypeIndex("Thundermon"));
         assertEquals(2, fm1.getTypeIndex("Leafymon"));
         assertEquals(0, fm1.getTypeIndex("Zappymon"));
         fm1.rearrange("Zappymon", 1);
+        // First to middle
         assertEquals(1, fm1.getTypeIndex("Zappymon"));
         assertEquals(0, fm1.getTypeIndex("Thundermon"));
         assertEquals(2, fm1.getTypeIndex("Leafymon"));
@@ -315,16 +383,19 @@ public class ForneymonBattlegroundTests {
         fm1.collect(new Leafymon(1));
         fm1.collect(new Dampymon(1));
         fm1.rearrange("Leafymon", 1);
+        // Middle to before middle
         assertEquals(1, fm1.getTypeIndex("Leafymon"));
         assertEquals(0, fm1.getTypeIndex("Thundermon"));
         assertEquals(2, fm1.getTypeIndex("Zappymon"));
         assertEquals(3, fm1.getTypeIndex("Dampymon"));
         fm1.rearrange("Zappymon", 0);
+        // Middle to first
         assertEquals(1, fm1.getTypeIndex("Thundermon"));
         assertEquals(2, fm1.getTypeIndex("Leafymon"));
         assertEquals(0, fm1.getTypeIndex("Zappymon"));
         assertEquals(3, fm1.getTypeIndex("Dampymon"));
         fm1.rearrange("Zappymon", 1);
+        // First to middle
         assertEquals(1, fm1.getTypeIndex("Zappymon"));
         assertEquals(0, fm1.getTypeIndex("Thundermon"));
         assertEquals(2, fm1.getTypeIndex("Leafymon"));
@@ -340,6 +411,7 @@ public class ForneymonBattlegroundTests {
         fm1.collect(new Doggymon(5));
         fm1.collect(new Earthymon(2));
         fm1.rearrange("Leafymon", 1);
+        // Middle to before middle
         assertEquals(0, fm1.getTypeIndex("Thundermon"));
         assertEquals(1, fm1.getTypeIndex("Leafymon"));
         assertEquals(2, fm1.getTypeIndex("Zappymon"));
@@ -347,6 +419,7 @@ public class ForneymonBattlegroundTests {
         assertEquals(4, fm1.getTypeIndex("Doggymon"));
         assertEquals(5, fm1.getTypeIndex("Earthymon"));
         fm1.rearrange("Earthymon", 0);
+        // Last to First
         assertEquals(1, fm1.getTypeIndex("Thundermon"));
         assertEquals(2, fm1.getTypeIndex("Leafymon"));
         assertEquals(3, fm1.getTypeIndex("Zappymon"));
@@ -354,12 +427,29 @@ public class ForneymonBattlegroundTests {
         assertEquals(5, fm1.getTypeIndex("Doggymon"));
         assertEquals(0, fm1.getTypeIndex("Earthymon"));
         fm1.rearrange("Doggymon", 3);
+        // Middle to before middle
         assertEquals(1, fm1.getTypeIndex("Thundermon"));
         assertEquals(2, fm1.getTypeIndex("Leafymon"));
         assertEquals(4, fm1.getTypeIndex("Zappymon"));
         assertEquals(5, fm1.getTypeIndex("Dampymon"));
         assertEquals(3, fm1.getTypeIndex("Doggymon"));
         assertEquals(0, fm1.getTypeIndex("Earthymon"));
+        fm1.rearrange("Leafymon", 4);
+        // Middle to after middle
+        assertEquals(1, fm1.getTypeIndex("Thundermon"));
+        assertEquals(4, fm1.getTypeIndex("Leafymon"));
+        assertEquals(3, fm1.getTypeIndex("Zappymon"));
+        assertEquals(5, fm1.getTypeIndex("Dampymon"));
+        assertEquals(2, fm1.getTypeIndex("Doggymon"));
+        assertEquals(0, fm1.getTypeIndex("Earthymon"));
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void testRearrangeExceptions() {
+        fm1.collect(new Thundermon(1));
+        fm1.collect(new Zappymon(1));
+        fm1.rearrange("Zappymon", 7);
+        fm1.rearrange("Zappymon", -2);
     }
     
     @Test
@@ -384,7 +474,6 @@ public class ForneymonBattlegroundTests {
         fm1.collect(new Leafymon(1));
         fm1.collect(new Doggymon(2));
         fm1.collect(new Thundermon(5));
-        System.out.println(fm1.toString());
         Forneymonagerie dolly = fm1.clone();
         assertEquals(5, dolly.size());
         fm1.get(4).takeDamage(5, DamageType.BASIC);
@@ -394,7 +483,7 @@ public class ForneymonBattlegroundTests {
         assertEquals(0, fm1.getTypeIndex("Thundermon"));
         assertEquals(0, dolly.getTypeIndex("Dampymon"));
     }
-    
+   
     @Test
     public void testTrade_t0() {
         fm1.collect(new Dampymon(1));
@@ -439,6 +528,40 @@ public class ForneymonBattlegroundTests {
         fm2.collect(new Burnymon(1));
         assertEquals(fm1, fm2);
         fm2.rearrange("Burnymon", 0);
+        assertNotEquals(fm1, fm2);
+    }
+    
+    @Test
+    public void testEquals_t1() {
+        fm1.collect(new Dampymon(1));
+        fm1.collect(new Burnymon(1));
+        fm1.collect(new Earthymon(1));
+        fm1.collect(new Doggymon(1));
+        Forneymonagerie fm2 = new Forneymonagerie();
+        fm2.collect(new Dampymon(1));
+        fm2.collect(new Burnymon(1));
+        assertNotEquals(fm1, fm2);
+        fm2.collect(new Earthymon(2));
+        fm2.collect(new Doggymon(2));
+        assertNotEquals(fm1, fm2);
+        fm2.remove(2);
+        fm2.remove(2);
+        fm2.collect(new Earthymon(1));
+        fm2.collect(new Doggymon(1));
+        assertEquals(fm1, fm2);
+    }
+    
+    @Test
+    public void testEquals_t2() {
+        fm1.collect(new Dampymon(1));
+        fm1.collect(new Burnymon(1));
+        fm1.collect(new Earthymon(1));
+        fm1.collect(new Doggymon(1));
+        Forneymonagerie fm2 = new Forneymonagerie();
+        fm2.collect(new Dampymon(1));
+        fm2.collect(new Burnymon(1));
+        fm2.collect(new Doggymon(1));
+        fm2.collect(new Earthymon(1));
         assertNotEquals(fm1, fm2);
     }
     

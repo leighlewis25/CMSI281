@@ -41,9 +41,8 @@ public class Forneymonagerie implements ForneymonagerieInterface {
      */
     public boolean empty () {
         if (this.size == 0) {
-        	return true;
-        }
-        else {
+            return true;
+        } else {
         	return false;
         }
     }
@@ -69,21 +68,22 @@ public class Forneymonagerie implements ForneymonagerieInterface {
      * @param toAdd the Forneymon we are trying to add
      */
    public boolean collect (Forneymon toAdd) {
-	 checkAndGrow ();
-	 for (int i = 0; i < this.size; i++) {
-     	if (this.collection[i] == toAdd) {
-        		return false;
-        	}
-     	if (this.collection[i].getFMType().equals(toAdd.getFMType()) && 
-     			this.collection[i].getLevel() != toAdd.getLevel()) {
-     		this.collection[i].addLevels(toAdd.getLevel());
-     		return false;
-     	}
-	 }
-     this.collection[size] = toAdd;
-     this.size++;
-     return true;
-    }
+       checkAndGrow ();
+       for (int i = 0; i < this.size; i++) {
+           if (this.collection[i] == toAdd) {
+               return false;
+           }
+           
+           if (this.collection[i].getFMType().equals(toAdd.getFMType()) &&
+                   this.collection[i].getLevel() != toAdd.getLevel()) {
+               this.collection[i].addLevels(toAdd.getLevel());
+               return false;
+           }
+       }
+       this.collection[size] = toAdd;
+       this.size++;
+       return true;
+   }
     
    /**
     * Removes the Forneymon of the given subtype fmType from 
@@ -95,16 +95,17 @@ public class Forneymonagerie implements ForneymonagerieInterface {
     */
     public boolean releaseType (String fmType) {
         int originalSize = this.size();
+        
     	for (int i = 0; i < this.size; i++) {
-        	if (this.collection[i].getFMType().equals(fmType)) {
-        		shiftLeft(i, this.size - 1);
+    	    if (this.collection[i].getFMType().equals(fmType)) {
+    	        shiftLeft(i, this.size - 1);
         		this.size--;
         	}
         }
+    	
         if (originalSize == this.size) {
         	return false;
-        }
-        else {
+        } else {
         	return true;
         }
     }
@@ -139,7 +140,8 @@ public class Forneymonagerie implements ForneymonagerieInterface {
      * @param fmType Type of Forneymon of which we want the index
      */
     public int getTypeIndex (String fmType) {
-    	int index = -1;
+        int index = -1;
+        
         for (int i = 0; i < this.size; i++) {
         	if (this.collection[i].getFMType().equals(fmType)) {
         		index = i;
@@ -155,8 +157,8 @@ public class Forneymonagerie implements ForneymonagerieInterface {
      */
     public boolean containsType (String toCheck) {
         for (int i = 0; i < size; i++) {
-        	if (this.collection[i].getFMType().equals(toCheck)) {
-        		return true;
+            if (this.collection[i].getFMType().equals(toCheck)) {
+                return true;
         	}
         }
         return false;
@@ -171,13 +173,19 @@ public class Forneymonagerie implements ForneymonagerieInterface {
     	Forneymon[] originalCollection = collection.clone();
     	
     	this.size = other.size;
-    	this.collection = other.collection;
-    	
+    	this.collection = other.collection;  	
     	other.size = originalSize;
     	other.collection = originalCollection;
     	
     }
     
+    /**
+     * Moves the Forneymon of the given fmType from its current position in the 
+     * Forneymonagerie to the one specified by the index, shifting any existing 
+     * Forneymon around the requested index so that the relative indexing is preserved.
+     * @param fmType The type of the forneymon we hope to move to the index
+     * @param index The index at which we would like to insert fmType
+     */
     public void rearrange (String fmType, int index) {
         checkValidIndex(index, 0, this.size);
         int indexOfFMtype = this.getTypeIndex(fmType);
@@ -195,9 +203,15 @@ public class Forneymonagerie implements ForneymonagerieInterface {
         } 
     }
     
+    /**
+     * Returns a deep copy of this Forneymonagerie, which is a new Forneymonagerie 
+     * object with the same Forneymon subtypes, and in the same 
+     * collection order, but with new instances of each stored Forneymon and 
+     * it's own collection.
+     */
     @Override
     public Forneymonagerie clone () {
-    	Forneymonagerie newForneymonagerie = new Forneymonagerie();
+        Forneymonagerie newForneymonagerie = new Forneymonagerie();
         newForneymonagerie.size = this.size();
         newForneymonagerie.checkAndGrow();
 
@@ -211,14 +225,15 @@ public class Forneymonagerie implements ForneymonagerieInterface {
      * Returns whether or not the given Object other is an equivalent 
      * Forneymonagerie to this one, which we define as meaning that 
      * it contains equal Forneymon in the same order in the collection as this one.
-     * @param other the Forneymonagerie that we are checking to see if it equals
+     * @param other The Forneymonagerie that we are checking to see if it equals
      */
     @Override
     public boolean equals (Object other) {
-		if (this.getClass() != other.getClass()) {
+        Forneymonagerie otherAsForneymonagerie = (Forneymonagerie) other;
+        
+        if (this.getClass() != other.getClass()) {
 			return false;
 		}
-		Forneymonagerie otherAsForneymonagerie = (Forneymonagerie) other;
 		
 		if (this.size != otherAsForneymonagerie.size) {
 			return false;
@@ -263,7 +278,7 @@ public class Forneymonagerie implements ForneymonagerieInterface {
      */
     private void checkValidIndex (int index, int lowerBound, int upperBound) {
         if (index < lowerBound || index >= upperBound) {
-            throw new IndexOutOfBoundsException();
+            throw new IllegalArgumentException();
         }
     }
     
@@ -295,7 +310,7 @@ public class Forneymonagerie implements ForneymonagerieInterface {
 	 * space
 	 */
 	private void checkAndGrow () {
-		if (this.size < this.collection.length) {
+	    if (this.size < this.collection.length) {
 			return;
 		} else {
 			Forneymon[] newCollection = new Forneymon[this.collection.length * 2];
