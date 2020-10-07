@@ -307,32 +307,32 @@ public class Forneymonagerie implements ForneymonagerieInterface {
     }
     
     /**
-	 * Shifts all elements to the right of index
-	 * left by 1 space
-	 * @param index Starting index to shift left from
-	 */
+     * Shifts all elements to the right of index
+     * left by 1 space
+     * @param index Starting index to shift left from
+     */
     private void shiftLeft (int startIndex, int endIndex) {
         for (int i = startIndex; i < endIndex; i++) {
             collection[i] = collection[i+1];
-		}
 	}
+    }
     
     /**
-	 * Check before adding a new int, that there's room
-	 * to hold it in our items -- if not, "grow" the available
-	 * space
-	 */
-	private void checkAndGrow () {
-	    if (this.size < this.collection.length) {
-			return;
-		} else {
-		    Forneymon[] newCollection = new Forneymon[this.collection.length * 2];
+     * Check before adding a new int, that there's room
+     * to hold it in our items -- if not, "grow" the available
+     * space
+     */
+    private void checkAndGrow () {
+        if (this.size < this.collection.length) {
+            return;
+        } else {
+	    Forneymon[] newCollection = new Forneymon[this.collection.length * 2];
 			
-			for (int i = 0; i < this.collection.length; i++) {
-				newCollection[i] = this.collection[i];
-			}
-			this.collection = newCollection;
-		}
+	    for (int i = 0; i < this.collection.length; i++) {
+	        newCollection[i] = this.collection[i];
+	    }
+	    this.collection = newCollection;
 	}
+    }
 }
 
