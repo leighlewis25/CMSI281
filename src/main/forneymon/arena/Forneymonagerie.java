@@ -36,7 +36,9 @@ public class Forneymonagerie implements ForneymonagerieInterface {
     // TODO: Remember your documentation on these methods as well!
     
     /**
-     * Returns true if the Forneymonagerie has no Forneymon 
+     * Checks to see if the given Forneymonagerie is empty / has 
+     * no Forneymon.
+     * @return true if the Forneymonagerie has no Forneymon 
      * inside; otherwise, returns false.
      */
     public boolean empty () {
@@ -48,7 +50,8 @@ public class Forneymonagerie implements ForneymonagerieInterface {
     }
     
     /**
-     * Returns the current size of the Forneymonagerie
+     * Finds the size of the given Forneymonagerie.
+     * @return the current size of the Forneymonagerie
      */
     public int size () {
         return this.size;
@@ -66,6 +69,8 @@ public class Forneymonagerie implements ForneymonagerieInterface {
      * Attempts to add a reference to the given Forneymon to 
      * the Forneymonagerie's collection
      * @param toAdd the Forneymon we are trying to add
+     * @return false if the Forneymon toAdd (or the given subtype of the Forneymon)
+     * has already been stored, otherwise true.
      */
    public boolean collect (Forneymon toAdd) {
        checkAndGrow ();
@@ -92,6 +97,8 @@ public class Forneymonagerie implements ForneymonagerieInterface {
     * If the given fmType does not exist in the Forneymonagerie, 
     * do nothing, and return false.
     * @param fmType the type we want to release
+    * @return false if fmType does not exist in the Forneymonagerie,
+    * otherwise true.
     */
     public boolean releaseType (String fmType) {
         int originalSize = this.size();
@@ -111,9 +118,10 @@ public class Forneymonagerie implements ForneymonagerieInterface {
     }
     
     /**
-     * Returns the Forneymon at the given index in the collection, 
+     * Gets the Forneymon at the given index in the collection, 
      * if valid.
-     * @param index Index of Forneymon we want to get 
+     * @param index Index of Forneymon we want to get
+     * @return the Forneymon at the given index. 
      */
     public Forneymon get (int index) {
         checkValidIndex(index, 0, this.size);
@@ -121,10 +129,11 @@ public class Forneymonagerie implements ForneymonagerieInterface {
 	}
 
     /**
-     * Removes and returns the Forneymon at the given index, 
+     * Removes the Forneymon at the given index, 
      * if valid, and maintains the relative order of remaining Forneymon 
      * in the collection.
      * @param index Index at which we want to remove the Forneymon
+     * @return the Forneymon we would like to remove at the given index
      */
     public Forneymon remove (int index) {
         checkValidIndex(index, 0, this.size);
@@ -135,9 +144,10 @@ public class Forneymonagerie implements ForneymonagerieInterface {
     }
     
     /**
-     * Returns the index of a Forneymon with the given fmType 
-     * in the collection, or -1 if that type is not found within.
+     * Gets the index of the Forneymon with the given fmType.
      * @param fmType Type of Forneymon of which we want the index
+     * @return the index of a Forneymon with the given type or
+     * -1 if not found within
      */
     public int getTypeIndex (String fmType) {
         int index = -1;
@@ -151,9 +161,10 @@ public class Forneymonagerie implements ForneymonagerieInterface {
     }
     
     /**
-     * Returns true if the given fmType is found within the 
-     * Forneymonagerie's collection.
+     * Checks whether or not the given type exists within the Forneymonagerie.
      * @param toCheck Type we are checking if the Forneymonagerie contains
+     * @return true if the given fmType is found within the collection,
+     * else, returns false
      */
     public boolean containsType (String toCheck) {
         for (int i = 0; i < size; i++) {
@@ -183,7 +194,7 @@ public class Forneymonagerie implements ForneymonagerieInterface {
      * Moves the Forneymon of the given fmType from its current position in the 
      * Forneymonagerie to the one specified by the index, shifting any existing 
      * Forneymon around the requested index so that the relative indexing is preserved.
-     * @param fmType The type of the forneymon we hope to move to the index
+     * @param fmType The type of the Forneymon we hope to move to the index
      * @param index The index at which we would like to insert fmType
      */
     public void rearrange (String fmType, int index) {
@@ -204,10 +215,11 @@ public class Forneymonagerie implements ForneymonagerieInterface {
     }
     
     /**
-     * Returns a deep copy of this Forneymonagerie, which is a new Forneymonagerie 
+     * Makes a deep copy of this Forneymonagerie, which is a new Forneymonagerie 
      * object with the same Forneymon subtypes, and in the same 
      * collection order, but with new instances of each stored Forneymon and 
      * it's own collection.
+     * @return a deep copy of this Forneymonagerie
      */
     @Override
     public Forneymonagerie clone () {
@@ -222,10 +234,11 @@ public class Forneymonagerie implements ForneymonagerieInterface {
     }
     
     /**
-     * Returns whether or not the given Object other is an equivalent 
+     * Checks whether or not the given Object other is an equivalent 
      * Forneymonagerie to this one, which we define as meaning that 
      * it contains equal Forneymon in the same order in the collection as this one.
-     * @param other The Forneymonagerie that we are checking to see if it equals
+     * @param other The Forneymonagerie that we are checking to see if it equals.
+     * @return true if the given Object other is an equivalent Forneymonagerie to this one.
      */
     @Override
     public boolean equals (Object other) {
