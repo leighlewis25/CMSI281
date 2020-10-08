@@ -42,11 +42,7 @@ public class Forneymonagerie implements ForneymonagerieInterface {
      * inside; otherwise, returns false.
      */
     public boolean empty () {
-        if (this.size == 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return this.size == 0;
     }
 
     /**
