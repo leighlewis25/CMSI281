@@ -627,4 +627,18 @@ public class ForneymonBattlegroundTests {
         assertEquals(0, fm1.size());
         assertEquals(1, fm2.size());
     }
+    
+    @Test
+    public void testArena_t5() {
+        fm1.collect(new Burnymon(1));
+        fm1.collect(new Dampymon(1));
+        fm1.collect(new Thundermon(1));
+        fm1.collect(new Leafymon(1));
+        Forneymonagerie fm2 = new Forneymonagerie();
+        fm2.collect(new Burnymon(2));
+        fm2.collect(new Earthymon(1));
+        ForneymonArena.fight(fm1, fm2);
+        assertEquals(4, fm1.size());
+        assertEquals(0, fm2.size());
+    }
 }
