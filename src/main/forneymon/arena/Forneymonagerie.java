@@ -70,6 +70,9 @@ public class Forneymonagerie implements ForneymonagerieInterface {
      */
     public boolean collect (Forneymon toAdd) {
         checkAndGrow ();
+        // >> [AF] Note that you could have used the getTypeIndex method to see if something
+        // of the same type already existed within (and then could check if it was the exact
+        // same Forneymon or not)
         for (int i = 0; i < this.size; i++) {
             if (this.collection[i] == toAdd) {
                 return false;
@@ -98,6 +101,9 @@ public class Forneymonagerie implements ForneymonagerieInterface {
     public boolean releaseType (String fmType) {
         int originalSize = this.size();
 
+        // >> [AF] Once is forgivable, but here you've missed another opportunity to use the
+        // getTypeIndex method to reduce code repetition -- be aware of what methods exist
+        // to make your life easier, and your code DRY! (-0.5)
         for (int i = 0; i < this.size; i++) {
             if (this.collection[i].getFMType().equals(fmType)) {
                 shiftLeft(i, this.size - 1);
@@ -131,6 +137,7 @@ public class Forneymonagerie implements ForneymonagerieInterface {
      * @return the Forneymon we would like to remove at the given index
      */
     public Forneymon remove (int index) {
+        // >> [AF] Nice and concise!
         checkValidIndex(index, 0, this.size);
         Forneymon originalAtIndex = this.get(index);
         shiftLeft(index, this.size - 1);
@@ -162,6 +169,9 @@ public class Forneymonagerie implements ForneymonagerieInterface {
      * else, returns false
      */
     public boolean containsType (String toCheck) {
+        // >> [AF] See how your containsType and getTypeIndex methods look almost exactly alike?
+        // Time to think about abstracting their commonalities! You could really just call one
+        // inside of the other... (-0.5)
         for (int i = 0; i < size; i++) {
             if (this.collection[i].getFMType().equals(toCheck)) {
                 return true;
@@ -201,6 +211,9 @@ public class Forneymonagerie implements ForneymonagerieInterface {
             shiftLeft(indexOfFMtype, index);
             this.collection[index] = fmFMtype;
         } else {
+            // >> [AF] Not sure I like having to potentially grow just for the rearrange method,
+            // this would mean that you'd double the capacity and waste a lot of memory just to
+            // make the rearrangement simpler (-0.5)
             this.size++;
             checkAndGrow();
             shiftRight(index);
@@ -237,6 +250,10 @@ public class Forneymonagerie implements ForneymonagerieInterface {
      */
     @Override
     public boolean equals (Object other) {
+        // >> [AF] Problem doing this here: if other is *not* a Forneymonagerie,
+        // then this downcast will throw an error -- I didn't test for it, but
+        // it would be a problem in general -- do this after your next if-statement
+        // has verified that we're dealing with 2 Forneymonagerie here (-0.5)
         Forneymonagerie otherAsForneymonagerie = (Forneymonagerie) other;
 
         if (this.getClass() != other.getClass()) {
@@ -331,3 +348,16 @@ public class Forneymonagerie implements ForneymonagerieInterface {
     }
 }
 
+// ===================================================
+// >> [AF] Summary
+// ---------------------------------------------------
+// Correctness:         98 / 100
+// Style Penalty:       -2
+// Total:               96 / 100
+// ---------------------------------------------------
+// Excellent first submission with superb testing to
+// have achieved such a high correctness score, and
+// stylistically good, though with ample opportunities
+// to spot where to employ other methods to keep code
+// DRY. Overall excellent, keep up the great work!
+// ===================================================
